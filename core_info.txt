@@ -1,0 +1,16 @@
+先启动test_server可执行程序取在后台一直跑
+
+apk调用test_jar和testJniPlugin
+
+testJniPlugin 调用testJniNative(jni.so)
+
+testJniNative 调libtestservice中的client端
+
+libtestservice 向service中调用
+
+
+
+此过程中遇到最大问题：System.loadLibrary();加载错误。
+报错信息：java.lang.UnsatisfiedLinkError: dlopen failed: library "/system/lib/libskytvjni.so" needed or dlopened by "/system/lib/libnativeloader.so" is not accessible for the namespace "classloader-namespace"
+解决办法：在system/etc/public.libraries.txt中添加该so的全名
+原因：可能由于Android8.0系统太高，在网上查到，android7.0之后限制了一些第三方jni库的加载。
